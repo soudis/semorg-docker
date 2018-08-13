@@ -1,0 +1,51 @@
+version: '2'
+
+networks:
+  semorg-back:
+    driver: bridge
+
+volumes:
+  db:
+  semorg:
+
+services:
+
+  # HABIDAT-MYSQL-DB
+  #
+  # Central mysql instances
+  #
+  mysql-db:
+    image: mariadb
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=sandbox
+      - MYSQL_DATABASE=sandbox
+      - MYSQL_USER=sandbox
+      - MYSQL_PASSWORD=sandbox
+    networks:
+      - semorg-back
+
+  semorg:
+    build: ./
+    restart: always
+    environment:
+      - MYSQL_DATABASE=sandbox
+      - MYSQL_USER=sandbox
+      - MYSQL_HOST=mysql-db      
+      - MYSQL_PASSWORD=sandbox
+      - MEDIAWIKI_ADMIN_PASSWORD=sandbox
+      - MEDIAWIKI_ADMIN_USERNAME=admin 
+      - MEDIAWIKI_NAME=sandbox
+    volumes:
+      - semorg:/var/www/html
+    depends_on:
+      - mysql-db
+    links:
+      - mysql-db
+    ports:
+      - 8025:80
+    networks:
+      - semorg-back
+

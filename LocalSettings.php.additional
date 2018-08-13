@@ -1,0 +1,30 @@
+
+# Show Tweeki's advanced features by default
+$wgDefaultUserOptions['tweeki-advanced'] = 1;
+
+# Load Parser Functions extension
+wfLoadExtension( 'ParserFunctions' );
+# Enable String Functions
+$wgPFEnableStringFunctions = true;
+
+# Enable Semantic MediaWiki
+enableSemantics('localhost');
+$smwgEnabledEditPageHelp = false;
+$smwgLinksInValues = true;
+
+# Load Page Forms and Semantic Organization extensions
+wfLoadExtension('PageForms');
+$wgPageFormsAutocompleteOnAllChars = true;
+wfLoadExtension('SemanticOrganization');
+
+# Disable caching
+$wgEnableParserCache = false;
+$wgCachePages = false;
+
+# Allow display titles for automatically created page names
+$wgRestrictDisplayTitle = false;
+
+# Make Wiki private
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['read'] = false;
+$wgGroupPermissions['*']['edit'] = false;
