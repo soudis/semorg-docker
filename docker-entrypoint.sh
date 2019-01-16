@@ -4,30 +4,32 @@ set -e
 CONTAINER_INITIALIZED="CONTAINER_INITIALIZED"
 
 if [ ! -e $CONTAINER_INITIALIZED ]; then
-    
-    echo "INSTALLING SEMORG SEMANTIC MEDIAWIKI..."
 
-    if [ ! -d /var/www/html/skins/Tweeki ]; then
-	    echo "DOWNLOAD TWEEKI SKIN..."
-	    cd /var/www/html/skins/
-	    git clone https://github.com/thaider/Tweeki
-	else
-		echo "TWEEKI SKIN EXISTS, SKIPPING..."
-    fi
+ #    echo "INSTALLING SEMORG SEMANTIC MEDIAWIKI..."
 
-    if [ ! -d /var/www/html/extensions/PageForms ]; then
-	    echo "DOWNLOAD EXTENSIONS..."
-	    cd /var/www/html/extensions 
-	    git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/PageForms.git
-	    git clone https://github.com/thaider/SemanticOrganization.git
-	else
-		echo "EXTENSIONS EXIST, SKIPPING..."
-    fi
+ #    if [ ! -d /var/www/html/skins/Tweeki ]; then
+	#     echo "DOWNLOAD TWEEKI SKIN..."
+	#     cd /var/www/html/skins/
+	#     git clone https://github.com/thaider/Tweeki
+	# else
+	# 	echo "TWEEKI SKIN EXISTS, SKIPPING..."
+ #    fi
 
-    echo "INSTALL SEMANTIC MEDIAWIKI..."
+ #    if [ ! -d /var/www/html/extensions/PageForms ]; then
+	#     echo "DOWNLOAD EXTENSIONS..."
+	#     cd /var/www/html/extensions 
+	#     git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/PageForms.git
+	#     git clone https://github.com/thaider/SemanticOrganization.git
+	# else
+	# 	echo "EXTENSIONS EXIST, SKIPPING..."
+ #    fi
+
+ #    echo "INSTALL SEMANTIC MEDIAWIKI..."
+ #    cd /var/www/html
+ #    php composer.phar require mediawiki/semantic-media-wiki "~2.5" --update-no-dev
+ #    php composer.phar require mediawiki/semantic-result-formats "~2.5" --update-no-dev
+
     cd /var/www/html
-    php composer.phar require mediawiki/semantic-media-wiki "~2.5" --update-no-dev
-    php composer.phar require mediawiki/semantic-result-formats "~2.5" --update-no-dev
 
     echo "SETUP (SEMANTIC-)MEDIAWIKI..."
     php maintenance/install.php --dbserver=$MYSQL_HOST --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --scriptpath="" --lang=de --pass=$MEDIAWIKI_ADMIN_PASSWORD "$MEDIAWIKI_NAME" "$MEDIAWIKI_ADMIN_USERNAME"
@@ -42,7 +44,7 @@ if [ ! -e $CONTAINER_INITIALIZED ]; then
     sed -i 's/wgLanguageCode = ".*"/wgLanguageCode = "de"/g' LocalSettings.php
 
     echo "IMPORTING SEMORG PAGES..."
-    php maintenance/importDump.php < extensions/SemanticOrganization/import/semorg-pages.xml   
+    php maintenance/importDump.php < extensions/SemanticOrganization/import/semorg_pages.xml
 
     echo "CLEANUP..."
     php maintenance/rebuildrecentchanges.php

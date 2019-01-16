@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 networks:
   semorg-back:
@@ -16,7 +16,7 @@ services:
   #
   mysql-db:
     image: mariadb
-    restart: always
+    restart: unless-stopped
     volumes:
       - db:/var/lib/mysql
     environment:
@@ -29,7 +29,7 @@ services:
 
   semorg:
     build: ./
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_DATABASE=sandbox
       - MYSQL_USER=sandbox
