@@ -8,7 +8,8 @@ WORKDIR /var/www/html
 
 RUN git clone https://github.com/thaider/Tweeki /var/www/html/skins/Tweeki \
     && git clone https://gerrit.wikimedia.org/r/p/mediawiki/extensions/PageForms.git /var/www/html/extensions/PageForms \
-    && git clone https://github.com/oteloegen/SemanticOrganization.git /var/www/html/extensions/SemanticOrganization
+    && git clone https://github.com/oteloegen/SemanticOrganization.git /var/www/html/extensions/SemanticOrganization \
+    && git clone https://github.com/wikimedia/mediawiki-extensions-LdapAuthentication extensions/LdapAuthentication
 
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 
